@@ -6,7 +6,7 @@ public class MongoParams {
 	private int port;
 	private String dbname;
 	private String username;
-	private String password;
+	private char[] password;
 
 	
 	public MongoParams() {
@@ -20,7 +20,7 @@ public class MongoParams {
 		this.dbname = dbname;
 	}
 
-	public MongoParams(String hostname, int port, String dbname, String username, String password) {
+	public MongoParams(String hostname, int port, String dbname, String username, char[] password) {
 		super();
 		this.hostname = hostname;
 		this.port = port;
@@ -61,11 +61,11 @@ public class MongoParams {
 		this.username = username;
 	}
 
-	public String getPassword() {
+	public char[] getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(char[] password) {
 		this.password = password;
 	}
 

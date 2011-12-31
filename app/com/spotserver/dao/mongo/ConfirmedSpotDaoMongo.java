@@ -84,6 +84,7 @@ public class ConfirmedSpotDaoMongo implements IConfirmedSpotDao {
 						MongoParams mongoParams = SpotBeans.getConfig().getMongoConfig();
 						Mongo mongo = new Mongo(mongoParams.getHostname(), mongoParams.getPort());
 						mongoSpotDb = mongo.getDB(mongoParams.getDbname());
+						mongoSpotDb.authenticate(mongoParams.getUsername(), mongoParams.getPassword());
 					}
 
 				}

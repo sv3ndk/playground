@@ -26,8 +26,8 @@ public class DummyClient {
 
 	private static final ObjectMapper jsonMapper = new ObjectMapper();
 	
-	public static final String SERVICE_URL = "http://localhost:9000";
-	//public static final String SERVICE_URL = "http://spotserver.cloudfoundry.com";
+	//public static final String SERVICE_URL = "http://localhost:9000";
+	public static final String SERVICE_URL = "http://spotserver.cloudfoundry.com";
 	
 	public static final String SPOTS_SERVICE_URL = SERVICE_URL + "/spots";
 	public static final String SPOTREPORT_SERVICE_URL = SERVICE_URL + "/spotreport";
@@ -43,9 +43,19 @@ public class DummyClient {
 
 		//ensureDbINdex();
 		
-		//reportSpot(56, 12);
+		// chez moi :-)
+		reportSpot(50.831733, 4.379951);
+
+		// la chasse
+		reportSpot(50.831733,4.389951);
+
+		// rue de la faucille
+		reportSpot(50.831733,4.489951);
+
+		// cinquantenaire
+		reportSpot(50.841733,4.389951);
 		
-		getSpots(56, 13 , 10 );
+		getSpots(50.831733, 4.379951 , 0.10 );
 
 	}
 	

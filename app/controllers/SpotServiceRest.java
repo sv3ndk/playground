@@ -72,10 +72,24 @@ public class SpotServiceRest extends Controller {
 	
 	public static void doIndex() {
 		
+		
+		
 		Status status = SpotBeans.getConfirmedSpotDao().ensureSpotIndex();
 		renderJSON(status);
 		
 	}
 	
+	
+	public static void getVcap() {
+		Object vcap = System.getenv().get("VCAP_SERVICES");
+		
+		if (vcap == null) {
+			renderJSON("no vcap found");
+		} else {
+			renderJSON(vcap);
+		}
+		
+		
+	}
 
 }

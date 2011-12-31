@@ -8,6 +8,7 @@ POST /spotreport								SpotServiceRest.postNewSpot
 
 
 POST /admin/ensurespotindex						SpotServiceRest.doIndex()
+GET /admin/vcap								SpotServiceRest.getVcap()
 
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
