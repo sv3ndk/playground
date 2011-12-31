@@ -31,6 +31,7 @@ public class DummyClient {
 	
 	public static final String SPOTS_SERVICE_URL = SERVICE_URL + "/spots";
 	public static final String SPOTREPORT_SERVICE_URL = SERVICE_URL + "/spotreport";
+	public static final String ENSURE_INDEX_SERVICE_URL = SERVICE_URL + "/admin/ensurespotindex";
 
 	/**
 	 * @param args
@@ -40,10 +41,11 @@ public class DummyClient {
 	 */
 	public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
 
-		getSpots(10, 10 , 10 );
-
+		//ensureDbINdex();
+		
 		reportSpot(56, 12);
 		
+		getSpots(-56, 170 , 10 );
 
 	}
 	
@@ -91,6 +93,23 @@ public class DummyClient {
 		
 	}
 	
+	public static void ensureDbINdex () throws JsonGenerationException, JsonMappingException, IOException {
+		System.out.println("POSTing to': " + ENSURE_INDEX_SERVICE_URL);
+
+		HttpClient client = new DefaultHttpClient();
+		HttpPost post = new HttpPost(ENSURE_INDEX_SERVICE_URL);
+		HttpResponse response = client.execute(post);
+		
+		System.out.println("received this:");
+		BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+		String line = "";
+		while ((line = rd.readLine()) != null) {
+			System.out.println(line);
+		}		
+		
+		
+		
+	}
 	
 	
 	

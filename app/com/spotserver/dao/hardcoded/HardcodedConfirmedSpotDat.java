@@ -10,6 +10,7 @@ import java.util.List;
 import com.spotserver.dao.IConfirmedSpotDao;
 import com.spotserver.model.ConfirmedSpot;
 import com.spotserver.model.Location;
+import com.spotserver.model.Status;
 
 /**
  * @author svend
@@ -42,6 +43,13 @@ public class HardcodedConfirmedSpotDat implements IConfirmedSpotDao {
 	@Override
 	public void addSpot(double latitude, double longitude, Date discoveryDate,double confidenceLevel) {
 		// NOP
+	}
+
+
+	@Override
+	public Status ensureSpotIndex() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

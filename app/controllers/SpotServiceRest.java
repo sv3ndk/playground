@@ -1,25 +1,16 @@
 package controllers;
 
-import java.io.IOException;
-
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-
-import com.spotserver.dao.hardcoded.Utils;
-import com.spotserver.model.Location;
-import com.spotserver.model.SpotException;
-import com.spotserver.model.Status;
-import com.spotserver.model.spotservice.SpotReportRequest;
-import com.spotserver.model.spotservice.SpotList;
-import com.spotserver.model.spotservice.SpotListRequest;
-import com.spotserver.service.SpotBeans;
-
 import play.mvc.Controller;
 
-public class SpotServiceRest extends Controller {
+import com.spotserver.dao.hardcoded.Utils;
+import com.spotserver.model.SpotException;
+import com.spotserver.model.Status;
+import com.spotserver.model.spotservice.SpotList;
+import com.spotserver.model.spotservice.SpotListRequest;
+import com.spotserver.model.spotservice.SpotReportRequest;
+import com.spotserver.service.SpotBeans;
 
-	private final static ObjectMapper jsonMaper = new ObjectMapper();
+public class SpotServiceRest extends Controller {
 
 	/**
 	 * GET
@@ -36,7 +27,9 @@ public class SpotServiceRest extends Controller {
 
 		try {
 			SpotListRequest req = Utils.parseAndValidateSpotServiceRequest(lat, longit, range);
-			response.setSpots(SpotBeans.getConfirmedSpotDao().searchSpotsNear(req.getNear(), req.getMaxDistanceInKm()));
+			// conversion between degree distance and km distance (roughly ,, 2d map)
+			double realMaxDistance = req.getMaxDistanceInKm() / 110;
+			response.setSpots(SpotBeans.getConfirmedSpotDao().searchSpotsNear(req.getNear(), realMaxDistance));
 			response.setStatus(new Status(true, "happy"));
 		} catch (SpotException e) {
 			e.printStackTrace();
@@ -75,5 +68,14 @@ public class SpotServiceRest extends Controller {
 			renderJSON(status);
 		}
 	}
+	
+	
+	public static void doIndex() {
+		
+		Status status = SpotBeans.getConfirmedSpotDao().ensureSpotIndex();
+		renderJSON(status);
+		
+	}
+	
 
 }

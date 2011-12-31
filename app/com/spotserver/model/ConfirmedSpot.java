@@ -1,14 +1,17 @@
 package com.spotserver.model;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 
 public class ConfirmedSpot {
 
-	private final String DATE_FORMAT = "yyyyMMdd-HHmmss";
+	
+	private static final String DATE_FORMAT = "yyyyMMdd-HHmmss";
 	
 	
 	private String id;
@@ -44,12 +47,31 @@ public class ConfirmedSpot {
 	// mongo stuff
 	
 
+	public ConfirmedSpot(DBObject mongoDbo) {
+		
+		this.id = (String) mongoDbo.get("id");
+		this.confidenceLevel = (Double) mongoDbo.get("confidenceLevel");
+		this.location = new Location();
+		BasicDBObject locationDbo = (BasicDBObject) mongoDbo.get("location");
+		this.location.setLatitude((Double) locationDbo.get("latitude"));
+		this.location.setLongitude((Double)  locationDbo.get("longitude"));
+		try {
+			this.discoveryDate = new SimpleDateFormat(DATE_FORMAT).parse((String)mongoDbo.get("discoveryDate"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public BasicDBObject toMongoDbo() {
 		BasicDBObject converted = new BasicDBObject();
 		converted.put("discoveryDate", new SimpleDateFormat(DATE_FORMAT).format(discoveryDate));
-		converted.put("latitude", location.getLatitude());
-		converted.put("longitude", location.getLongitude());
+		BasicDBObject loca = new BasicDBObject();
+		loca.put("latitude", location.getLatitude());
+		loca.put("longitude", location.getLongitude());
+		
+		converted.put("location", loca);
 		converted.put("confidenceLevel", confidenceLevel);
+		
 		return converted;
 		
 	}
