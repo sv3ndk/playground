@@ -50,9 +50,11 @@ public class ConfirmedSpotDaoMongo implements IConfirmedSpotDao {
 		nearQuery.put("$near", center);
 		nearQuery.put("$maxDistance", maxDistanceInKm);
 		query.put("location", nearQuery);
+		
+		System.out.println("query " + query);
 
 		List<ConfirmedSpot> response = new LinkedList<ConfirmedSpot>();
-		DBCursor cur = coll.find();
+		DBCursor cur = coll.find(query);
 		while (cur.hasNext()) {
 			response.add(new ConfirmedSpot(cur.next()));
 		}

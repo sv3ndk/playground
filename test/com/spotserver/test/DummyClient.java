@@ -43,9 +43,9 @@ public class DummyClient {
 
 		//ensureDbINdex();
 		
-		reportSpot(56, 12);
+		//reportSpot(56, 12);
 		
-		getSpots(-56, 170 , 10 );
+		getSpots(56, 13 , 10 );
 
 	}
 	
