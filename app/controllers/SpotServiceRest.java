@@ -28,8 +28,8 @@ public class SpotServiceRest extends Controller {
 		try {
 			SpotListRequest req = Utils.parseAndValidateSpotServiceRequest(lat, longit, range);
 			// conversion between degree distance and km distance (roughly ,, 2d map)
-			double realMaxDistance = req.getMaxDistanceInKm() / 110;
-			response.setSpots(SpotBeans.getConfirmedSpotDao().searchSpotsNear(req.getNear(), realMaxDistance));
+			double maxDistanceInDegrees = req.getMaxDistanceInKm() / 110;
+			response.setSpots(SpotBeans.getConfirmedSpotDao().searchSpotsNear(req.getNear(), maxDistanceInDegrees));
 			response.setStatus(new Status(true, "happy"));
 		} catch (SpotException e) {
 			e.printStackTrace();
@@ -81,13 +81,16 @@ public class SpotServiceRest extends Controller {
 	
 	
 	public static void getVcap() {
-		Object vcap = System.getenv().get("VCAP_SERVICES");
 		
-		if (vcap == null) {
-			renderJSON("no vcap found");
-		} else {
-			renderJSON(vcap);
-		}
+// this is no longer necessary
+// but I like to keep the example of how to get the service refecences in cloudfoundry
+//		Object vcap = System.getenv().get("VCAP_SERVICES");
+//		
+//		if (vcap == null) {
+//			renderJSON("no vcap found");
+//		} else {
+//			renderJSON(vcap);
+//		}
 		
 		
 	}

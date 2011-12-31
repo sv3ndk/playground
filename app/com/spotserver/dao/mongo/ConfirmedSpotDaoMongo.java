@@ -36,7 +36,7 @@ public class ConfirmedSpotDaoMongo implements IConfirmedSpotDao {
 	 * @see com.spotserver.dao.IConfirmedSpotDao#searchSpotsNear(com.spotserver.model.Location, double)
 	 */
 	@Override
-	public List<ConfirmedSpot> searchSpotsNear(Location location, double maxDistanceInKm) throws SpotException {
+	public List<ConfirmedSpot> searchSpotsNear(Location location, double maxDistanceInDegrees) throws SpotException {
 
 		DBCollection coll = getMongoDb().getCollection(COLLECTION_NAME);
 		BasicDBObject query = new BasicDBObject();
@@ -45,14 +45,10 @@ public class ConfirmedSpotDaoMongo implements IConfirmedSpotDao {
 		center.put("latitude", location.getLatitude());
 		center.put("longitude", location.getLongitude());
 		
-		System.out.println("max distance" + maxDistanceInKm);
-		
 		nearQuery.put("$near", center);
-		nearQuery.put("$maxDistance", maxDistanceInKm);
+		nearQuery.put("$maxDistance", maxDistanceInDegrees);
 		query.put("location", nearQuery);
 		
-		System.out.println("query " + query);
-
 		List<ConfirmedSpot> response = new LinkedList<ConfirmedSpot>();
 		DBCursor cur = coll.find(query);
 		while (cur.hasNext()) {

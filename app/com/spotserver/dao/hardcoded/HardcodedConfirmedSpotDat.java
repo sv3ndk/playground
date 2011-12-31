@@ -26,7 +26,7 @@ public class HardcodedConfirmedSpotDat implements IConfirmedSpotDao {
 	 * @see com.spotserver.dao.IConfirmedSpotDao#searchSpotsNear(com.spotserver.model.Location)
 	 */
 	@Override
-	public List<ConfirmedSpot> searchSpotsNear(Location location, double maxDistanceInKm) {
+	public List<ConfirmedSpot> searchSpotsNear(Location location, double maxDistanceInDegree) {
 		
 		List<ConfirmedSpot> response = new LinkedList<ConfirmedSpot>();
 		
