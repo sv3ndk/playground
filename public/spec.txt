@@ -1,0 +1,46 @@
+quand un utilisateur veut déclarer un nouvel endroit;
+- POST discoveredSpot
+   => response : ok/nok
+
+quand un utilisateur veut connaitre les spots près d'un endroit (soit près de lui avec le GPS, soit à un endroit où il veut passer)
+- GET spotRequest
+   => response: spotList
+
+quand un utilisateur veut voter pour ou contre un spot déclaré sur par le système (i.e. soit confirmer qu'il existe, soit voter pour la thèse que ce spot n'existe pas)
+- POST spotReview
+   => resposne: ok/not
+
+
+avec des données dans ce gout-là:
+
+Location : {
+   double latitude,
+   double longitude
+}
+
+
+discoveredSpot : {
+ Location spotLocation
+}
+
+confirmedSpot: {
+ string id,
+ Location spotLocation,
+ int numberOfConfirmationVotes
+}
+
+
+spotRequest {
+   Location near ,
+   double maxdistanceInKm 
+}
+
+spotlist {
+  confirmedSpot[] list  
+}
+
+spotReview {
+  string spotId,
+  bool isSpotStilValid
+}
+
