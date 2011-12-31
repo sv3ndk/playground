@@ -26,8 +26,9 @@ public class DummyClient {
 
 	private static final ObjectMapper jsonMapper = new ObjectMapper();
 	
-	
 	public static final String SERVICE_URL = "http://localhost:9000";
+	//public static final String SERVICE_URL = "http://spotserver.cloudfoundry.com";
+	
 	public static final String SPOTS_SERVICE_URL = SERVICE_URL + "/spots";
 	public static final String SPOTREPORT_SERVICE_URL = SERVICE_URL + "/spotreport";
 
@@ -56,7 +57,7 @@ public class DummyClient {
 		HttpGet get = new HttpGet(queriedURL);
 		HttpResponse response = client.execute(get);
 		
-		System.out.println("received this:");
+		System.out.println("GETting this:");
 		BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 		String line = "";
 		while ((line = rd.readLine()) != null) {
@@ -68,7 +69,7 @@ public class DummyClient {
 		
 		SpotReportRequest request = new SpotReportRequest(new Location(latitude, longitude));
 		String jsonRequest = jsonMapper.writeValueAsString(request);
-		System.out.println("sending this (as named value 'report': " + jsonRequest);
+		System.out.println("POSTing this (as named value 'report': " + jsonRequest);
 		
 		HttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost(SPOTREPORT_SERVICE_URL);

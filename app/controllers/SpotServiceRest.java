@@ -20,7 +20,7 @@ import play.mvc.Controller;
 public class SpotServiceRest extends Controller {
 
 	private final static ObjectMapper jsonMaper = new ObjectMapper();
-	
+
 	/**
 	 * GET
 	 * 
@@ -33,27 +33,23 @@ public class SpotServiceRest extends Controller {
 	 */
 	public static void getSpots(String lat, String longit, String range) {
 		SpotList response = new SpotList();
-		
+
 		try {
 			SpotListRequest req = Utils.parseSpotServiceRequest(lat, longit, range);
 			response.setSpots(SpotBeans.getConfirmedSpotDao().searchSpotsNear(req.getNear(), req.getMaxDistanceInKm()));
-			response.setStatus(new Status(true,"happy"));
+			response.setStatus(new Status(true, "happy"));
 		} catch (SpotException e) {
 			e.printStackTrace();
-			response.setStatus(new Status(false,e.getMessage()));
+			response.setStatus(new Status(false, e.getMessage()));
 		}
-		
+
 		renderJSON(response);
 	}
-	
-	
-	
-	
-	
+
 	/**
 	 * POST
 	 * 
-	 * /spotted  : used to report a new spot
+	 * /spotted : used to report a new spot
 	 * 
 	 * 
 	 * @param lat
@@ -61,48 +57,38 @@ public class SpotServiceRest extends Controller {
 	 * @param range
 	 */
 	public static void postNewSpot(SpotReportRequest howCanIgetThis) {
+
+		Status response = new Status();
 		
-		Status response  = new Status();
-		
-		System.out.println("params " + params);
-		System.out.println("params data" + params.data);
-		for (String key: params.data.keySet()) {
-			System.out.println("k " + key + " value: " + params.data.get(key));
-		}
-		
-		if (params == null || params.data == null || ! params.data.containsKey("report")) {
+		if (params == null || params.data == null || !params.data.containsKey("report")) {
 			response.setOk(false);
 			response.setMessage("could not find a 'report' field in the post message");
 		}
-		
+
 		String reportStr = params.data.get("report")[0];
-		
+
 		SpotReportRequest report = null;
 		try {
 			report = jsonMaper.readValue(reportStr, SpotReportRequest.class);
+
+			if (report == null) {
+				response.setOk(false);
+				response.setMessage("no request found in POST body");
+			} else if (report.getSpotLocation() == null || report.getSpotLocation().getLatitude() == null || report.getSpotLocation().getLatitude() == null) {
+				response.setOk(false);
+				response.setMessage("missing or invalid location in request");
+			} else {
+				response = SpotBeans.getSpotService().reportNewSpot(report.getSpotLocation().getLatitude(), report.getSpotLocation().getLongitude());
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.setOk(false);
-			response.setMessage("error while trying to deserialize json string " + e.getMessage());
-		}
-		
-		
-		
-		if (report == null) {
-			response.setOk(false);
-			response.setMessage("no request found in POST body");
-		} else if (report.getSpotLocation() == null || report.getSpotLocation().getLatitude() == null || report.getSpotLocation().getLatitude() == null) {
-			response.setOk(false);
-			response.setMessage("missing or invalid location in request");
-		} else {
-			response.setOk(true);
-			response.setMessage("happy");
+			response.setMessage("error while trying to process spot report" + e.getMessage());
 		}
 		
 		renderJSON(response);
-		
+
 	}
-	
-	
 
 }

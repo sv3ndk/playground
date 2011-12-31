@@ -17,6 +17,10 @@ import com.spotserver.model.Location;
  */
 public class HardcodedConfirmedSpotDat implements IConfirmedSpotDao {
 
+	
+	
+	
+	
 	/* (non-Javadoc)
 	 * @see com.spotserver.dao.IConfirmedSpotDao#searchSpotsNear(com.spotserver.model.Location)
 	 */
@@ -32,6 +36,12 @@ public class HardcodedConfirmedSpotDat implements IConfirmedSpotDao {
 		response.add(new ConfirmedSpot("5", new Location(61d, 43d), new Date(), 0.15));
 		
 		return response;
+	}
+
+	
+	@Override
+	public void addSpot(double latitude, double longitude, Date discoveryDate) {
+		// NOP
 	}
 
 }

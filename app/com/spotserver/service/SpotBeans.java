@@ -12,12 +12,19 @@ import com.spotserver.dao.hardcoded.HardcodedConfirmedSpotDat;
 public class SpotBeans {
 	
 	
-	private static IConfirmedSpotDao confirmedSpotDao = new HardcodedConfirmedSpotDat(); 
+	private static final IConfirmedSpotDao confirmedSpotDao = new HardcodedConfirmedSpotDat(); 
+	private static final ISpotService spotService = new SpotService(); 
 	
 	
 	public static IConfirmedSpotDao getConfirmedSpotDao() {
 		return confirmedSpotDao;
 	}
+
+
+	public static ISpotService getSpotService() {
+		return spotService;
+	}
+
 	
 
 }
