@@ -1,15 +1,17 @@
-package com.spotserver.model;
+package com.spotserver.model.spotservice;
 
-public class SpotRequest {
+import com.spotserver.model.Location;
+
+public class SpotListRequest {
 
 	private Location near;
 	private double maxDistanceInKm;
 
-	public SpotRequest() {
+	public SpotListRequest() {
 		super();
 	}
 
-	public SpotRequest(Location near, double maxDistanceInKm) {
+	public SpotListRequest(Location near, double maxDistanceInKm) {
 		super();
 		this.near = near;
 		this.maxDistanceInKm = maxDistanceInKm;

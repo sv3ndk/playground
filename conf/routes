@@ -3,7 +3,8 @@
 # ~~~~
 
 
-GET /spots										SpotServiceRest.getSpots
+GET  /spots										SpotServiceRest.getSpots
+POST /spotreport								SpotServiceRest.postNewSpot
 
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public

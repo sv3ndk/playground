@@ -1,7 +1,10 @@
-package com.spotserver.model;
+package com.spotserver.model.spotservice;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import com.spotserver.model.ConfirmedSpot;
+import com.spotserver.model.Status;
 
 public class SpotList {
 

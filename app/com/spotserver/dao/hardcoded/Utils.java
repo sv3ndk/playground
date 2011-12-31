@@ -3,7 +3,7 @@ package com.spotserver.dao.hardcoded;
 import com.google.common.base.Strings;
 import com.spotserver.model.Location;
 import com.spotserver.model.SpotException;
-import com.spotserver.model.SpotRequest;
+import com.spotserver.model.spotservice.SpotListRequest;
 
 import controllers.SpotServiceRest;
 
@@ -23,15 +23,15 @@ public class Utils {
 
 	}
 
-	public static SpotRequest parseSpotServiceRequest(String latitude, String longitude, String range) throws SpotException {
+	public static SpotListRequest parseSpotServiceRequest(String latitude, String longitude, String range) throws SpotException {
 		if (Strings.isNullOrEmpty(range)) {
 			throw new SpotException("invalid range");
 		}
 
 		try {
-			return new SpotRequest(parseLocation(latitude, longitude), Double.parseDouble(range));
+			return new SpotListRequest(parseLocation(latitude, longitude), Double.parseDouble(range));
 		} catch (NumberFormatException exc) {
-			throw new SpotException("invalid latitude or longitude");
+			throw new SpotException("invalid range");
 		}
 
 	}
