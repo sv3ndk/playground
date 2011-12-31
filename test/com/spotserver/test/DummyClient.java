@@ -40,9 +40,10 @@ public class DummyClient {
 	 */
 	public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
 
+		getSpots(10, 10 , 10 );
+
 		reportSpot(56, 12);
 		
-		getSpots(10, 10 , 10 );
 
 	}
 	

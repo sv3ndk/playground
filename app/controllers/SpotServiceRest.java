@@ -35,7 +35,7 @@ public class SpotServiceRest extends Controller {
 		SpotList response = new SpotList();
 
 		try {
-			SpotListRequest req = Utils.parseSpotServiceRequest(lat, longit, range);
+			SpotListRequest req = Utils.parseAndValidateSpotServiceRequest(lat, longit, range);
 			response.setSpots(SpotBeans.getConfirmedSpotDao().searchSpotsNear(req.getNear(), req.getMaxDistanceInKm()));
 			response.setStatus(new Status(true, "happy"));
 		} catch (SpotException e) {
@@ -58,37 +58,22 @@ public class SpotServiceRest extends Controller {
 	 */
 	public static void postNewSpot(SpotReportRequest howCanIgetThis) {
 
-		Status response = new Status();
-		
-		if (params == null || params.data == null || !params.data.containsKey("report")) {
-			response.setOk(false);
-			response.setMessage("could not find a 'report' field in the post message");
-		}
-
-		String reportStr = params.data.get("report")[0];
-
-		SpotReportRequest report = null;
 		try {
-			report = jsonMaper.readValue(reportStr, SpotReportRequest.class);
-
-			if (report == null) {
-				response.setOk(false);
-				response.setMessage("no request found in POST body");
-			} else if (report.getSpotLocation() == null || report.getSpotLocation().getLatitude() == null || report.getSpotLocation().getLatitude() == null) {
-				response.setOk(false);
-				response.setMessage("missing or invalid location in request");
-			} else {
-				response = SpotBeans.getSpotService().reportNewSpot(report.getSpotLocation().getLatitude(), report.getSpotLocation().getLongitude());
+			if (params == null || params.data == null || !params.data.containsKey("report")) {
+				throw new SpotException("could not find a 'report' field in the post message");
 			}
-
+			
+			String reportStr = params.data.get("report")[0];
+			SpotReportRequest report = Utils.parseAndValidateSpotReportRequest(reportStr);
+			Status status = SpotBeans.getSpotService().reportNewSpot(report.getSpotLocation().getLatitude(), report.getSpotLocation().getLongitude());
+			renderJSON(status);
 		} catch (Exception e) {
+			Status status = new Status();
 			e.printStackTrace();
-			response.setOk(false);
-			response.setMessage("error while trying to process spot report" + e.getMessage());
+			status.setOk(false);
+			status.setMessage("error while trying to process spot report" + e.getMessage());
+			renderJSON(status);
 		}
-		
-		renderJSON(response);
-
 	}
 
 }

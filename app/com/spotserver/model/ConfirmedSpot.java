@@ -1,10 +1,16 @@
 package com.spotserver.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.mongodb.BasicDBObject;
+
 public class ConfirmedSpot {
 
+	private final String DATE_FORMAT = "yyyyMMdd-HHmmss";
+	
+	
 	private String id;
 	private Location location;
 
@@ -20,13 +26,37 @@ public class ConfirmedSpot {
 		super();
 	}
 
-	public ConfirmedSpot(String id, Location location, Date discoveryDate, double confidenceLevel) {
+	public ConfirmedSpot(Location location, Date discoveryDate, double confidenceLevel) {
 		super();
-		this.id = id;
 		this.location = location;
 		this.discoveryDate = discoveryDate;
 		this.confidenceLevel = confidenceLevel;
+		
 	}
+	
+	public ConfirmedSpot(String id, Location location, Date discoveryDate, double confidenceLevel) {
+		this (location, discoveryDate, confidenceLevel);
+		this.id = id;
+	}
+	
+	
+	//////////////////////
+	// mongo stuff
+	
+
+	public BasicDBObject toMongoDbo() {
+		BasicDBObject converted = new BasicDBObject();
+		converted.put("discoveryDate", new SimpleDateFormat(DATE_FORMAT).format(discoveryDate));
+		converted.put("latitude", location.getLatitude());
+		converted.put("longitude", location.getLongitude());
+		converted.put("confidenceLevel", confidenceLevel);
+		return converted;
+		
+	}
+	
+	
+	
+	//////////////////////
 
 	public String getId() {
 		return id;

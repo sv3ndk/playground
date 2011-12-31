@@ -18,6 +18,8 @@ public class SpotService implements ISpotService{
 	// spots reports which are less then 50 meters from an existing spot are assumed to be identical to this exising spot 
 	public final static double SPOT_TOLERANCE_IN_METERS = 50;
 	
+	public final static double DEFAULT_CONFIDENCE_LEVEL = 0.5;
+	
 	@Override
 	public Status reportNewSpot(double latitude, double longitude) throws SpotException {
 		
@@ -27,7 +29,7 @@ public class SpotService implements ISpotService{
 		
 		if (existingSpots == null || existingSpots.isEmpty()) {
 			// ok, we can add this new spot
-			confirmedSpotDao.addSpot(latitude, longitude, new Date());
+			confirmedSpotDao.addSpot(latitude, longitude, new Date(), DEFAULT_CONFIDENCE_LEVEL);
 			return new Status(true, "thanks, spot added");
 		} else {
 			// TODO: add a +1 vote here

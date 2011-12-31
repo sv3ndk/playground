@@ -40,7 +40,7 @@ public class HardcodedConfirmedSpotDat implements IConfirmedSpotDao {
 
 	
 	@Override
-	public void addSpot(double latitude, double longitude, Date discoveryDate) {
+	public void addSpot(double latitude, double longitude, Date discoveryDate,double confidenceLevel) {
 		// NOP
 	}
 
