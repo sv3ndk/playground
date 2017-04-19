@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-/usr/bin/anaconda/bin/pip install geopy --user
+/usr/bin/anaconda/bin/pip install geopy
 
